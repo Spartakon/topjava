@@ -1,4 +1,5 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/83cc03ed682e4fdfae9e64ced9f07a41)](https://www.codacy.com/manual/Spartakon/topjava18?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Spartakon/topjava18&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/Spartakon/topjava18.svg?branch=master)](https://travis-ci.org/Spartakon/topjava18)
 
 Java Enterprise Online Project
 ===============================
