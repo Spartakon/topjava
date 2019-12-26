@@ -81,6 +81,7 @@
 -  <a href="https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/htmlsingle/#testing">Spring Testing</a>
 
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 6. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFVlNYczhnSU9JdXc">Базы данных. Обзор NoSQL и Java persistence solution без ORM.</a>
+> **Внимание! С PostgreSQL 12 возможны проблемы**
 -  <a href="https://ru.wikipedia.org/wiki/PostgreSQL">PostgreSQL</a>.
 -  [PostgreSQL JDBC Driver](https://github.com/pgjdbc/pgjdbc)
 -  <a href="http://java-course.ru/begin/postgresql/">Установка PostgreSQL</a>.
@@ -111,7 +112,6 @@ GRANT ALL PRIVILEGES ON DATABASE topjava TO "user";
   - <a href="https://www.youtube.com/playlist?list=PLIU76b8Cjem5qdMQLXiIwGLTLyUHkTqi2">Уроки по JDBC</a>
   - <a href="http://postgresguide.com/">Postgres Guide</a>
   - <a href="http://www.postgresqltutorial.com">PostgreSQL Tutorial</a>
-  - <a href="http://campus.codeschool.com/courses/try-sql">Try SQL</a>
   - <a href="http://java-course.ru/begin/database01/">Базы данных на Java</a>
   - <a href="http://java-course.ru/begin/database02/">Возможности JDBC — второй этап</a>
 - Дополнительно:
@@ -165,7 +165,7 @@ GRANT ALL PRIVILEGES ON DATABASE topjava TO "user";
 **Приложение перестало работать, тк. для репозитория мы используем заглушку `JdbcMealRepository`**
  
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 11. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFNDlOQVpOWF82OTA">Ответы на Ваши вопросы</a>
--  Что такое REST? <a href="http://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/">10 Best Practices for Better RESTful API</a>
+-  Что такое REST? <a href="https://medium.com/@mwaysolutions/10-best-practices-for-better-restful-api-cbe81b06f291">10 Best Practices for Better RESTful API</a>
 -  Зачем нужна сортировка еды?
 -  Можно ли обойтись без `MapSqlParameterSource`?
 -  Как происходит работа с DB в тестах?
@@ -197,7 +197,7 @@ GRANT ALL PRIVILEGES ON DATABASE topjava TO "user";
 - Логика в базе - это процедуры и триггеры. Нет никакого ООП, переиспользовать код достаточно сложно, никагого рефакторинга, поиска по коду и других плюшек IDE. Нельзя делать всякие вещи типа кэширования, хранения в сесии - это все для логики на стороне java. Например json можно напрямую отдать в процедуру и там парсить и вставлять в таблицы или наоборот - собирать из таблиц и возвращать.
 А затем потребуется некоторая логика на стороне приложения и все равно придется этот json дополнительно разпарсивать в java.
 Я на таком проекте делал специальную миграцию, чтобы процедуры мигрировать не как sql скрипты, а каждую процедуру хранить как класс с историей изменений. Если логика: триггеры и простые процедуры записи-чтения, которые не требуют переиспользования кода или
-проект небольшой это допустимо, иначе проект становится трудно поддерживать. Также иногда используют [View](http://postgresql.ru.net/gruber/ch20.html) для разграничения доступа. Например, для финансовых систем, таблицы проводок доступны только  для админ учеток, а View просто не дадут увидеть (тем более изменить) данны обычному оператору на уровне СУБД.
+проект небольшой это допустимо, иначе проект становится трудно поддерживать. Также иногда используют [View](http://postgresql.men/gruber/ch20.html) для разграничения доступа. Например, для финансовых систем, таблицы проводок доступны только  для админ учеток, а View просто не дадут увидеть (тем более изменить) данны обычному оператору на уровне СУБД.
 
 > У JUnit есть ассерты и у спринга тоже. Можно ли обойтись без JUnit?
 
@@ -219,6 +219,10 @@ UNIQUE индекс нужен для обеcпечения уникальнос
 
 Мы будем использовать Hibernate, по умолчанию он делает глобальный sequence на все таблицы. В этом подходе есть <a href="http://stackoverflow.com/questions/1536479/asking-for-opinions-one-sequence-for-all-tables">как плюсы, так и минусы</a>, из плюсов - удобно делать ссылки в коде и в таблицах на при наследовании и мапы в коде.
 
+> Каким образом попадают в тесты классы, расположенные в каталоге `test`, если в конфигурации спринга нет указание на ее сканирование?
+
+Сканируются не папки, а пакеты. Обычно тесты классов располагают в том же самом пакете каталога `test`. Таким образом тесты могут видеть поля классов `main` с видимостью по умолчанию (внутри пакета). При этом классы `test` видят `main`, а наоборот- нет. Когда приложение деплоится, в коде тестов быть не должно!
+
 ## ![hw](https://cloud.githubusercontent.com/assets/13649199/13672719/09593080-e6e7-11e5-81d1-5cb629c438ca.png) Домашнее задание HW03
 - 1 Понять, почему перестали работать `SpringMain, InMemoryAdminRestControllerTest, InMemoryAdminRestControllerSpringTest`
 - 2 Дополнить скрипты создания и инициализации базы таблицой MEALS. Запустить скрипты на вашу базу (через Run). Порядок таблиц при DROP и DELETE важен, если они связаны внешними ключами (foreign key, fk). Проверьте, что ваши скрипты работают
@@ -229,7 +233,7 @@ UNIQUE индекс нужен для обеcпечения уникальнос
   - 3.4. Cписок еды должен быть отсортирован (тогда мы его сможем сравнивать с тестовыми данными). Кроме того это требуется для UI и API: последняя еда наверху.
 - 4 Проверить работу MealServlet, запустив приложение
 
-#### Optional
+### Optional
 - 5 Сделать `MealServiceTest` из `MealService` и реализовать тесты для `JdbcMealRepository`.
 > По `Ctrl+Shift+T` (выбрать JUnit4) можно создать тест для конкретного класса, выбрав для него нужные методы. Тестовый класс создастся в папке `test` в том же пакете, что и тестируемый. 
   - 5.1 Сделать тестовые данные `MealTestData` (точно такие же, как вставляем в `populateDB.sql`).
@@ -274,6 +278,6 @@ UNIQUE индекс нужен для обеcпечения уникальнос
 - 5: В реализации `JdbcMealRepository` одним SQL запросом используйте возвращаемое `update` значение `the number of rows affected`
 - 6: При тестировании не портите констант из `MealTestData`
 - 7: Проверьте, что все, что относится к тестам, находится в каталоге `test` (не попадает в сборку проекта)
-- 8: **Еще раз: в тестах проверять через `JUnit Assert` или использовать `assertThat().isEqualTo` нельзя: сравнение будет происходить через `equals`, который сравнивает объекты только по `id`. Мы не можем переопределять `equals` для объектов модели, тк будем использовать JPA (см. [The JPA hashCode() / equals() dilemma](https://stackoverflow.com/questions/5031614/the-jpa-hashcode-equals-dilemma))**
+- 8: **Еще раз: в тестах проверять через `JUnit Assert` или использовать `assertThat().isEqualTo` нельзя: сравнение будет происходить через `AbstractBaseEntity.equals`, который сравнивает объекты только по `id`. Мы не можем переопределять `equals` для объектов модели, тк будем использовать JPA (см. [The JPA hashCode() / equals() dilemma](https://stackoverflow.com/questions/5031614/the-jpa-hashcode-equals-dilemma))**
 - 9: НЕ делайте склейку SQL запросов вручную из параметров, только через `jdbcTemplate` параметры! См. [Внедрение_SQL-кода](https://ru.wikipedia.org/wiki/Внедрение_SQL-кода)
 - 10: Напомню: `BeanPropertyRowMapper` работает через отражение. Ему нужны геттеры/сеттеры и имена полей должны "совпадать" с колонками `ResultSet` (Column values are mapped based on matching the column name as obtained from result set metadata to public setters for the corresponding properties. The names are matched either directly or by transforming a name separating the parts with underscores to the same name using "camel" case).

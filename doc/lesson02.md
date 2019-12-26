@@ -77,6 +77,11 @@
    - <a href="http://stackoverflow.com/questions/6640784/difference-between-active-record-and-dao">Difference between Active Record and DAO</a>
 
 ## ![question](https://cloud.githubusercontent.com/assets/13649199/13672858/9cd58692-e6e7-11e5-905d-c295d2a456f1.png) Ваши вопросы
+
+> Почему у `User.registered` тип `Date`, а `Meal.dateTime` `LocalDateTime `?
+
+Время регистрации - абсолютное (конкретный момент), а время еды по бизнес логике относительно (те не зависит от часового пояса)
+
 >  Какова цель деления приложения на слои?
 
 Управляемость проекта (особенно большого) повышается на порядок:
@@ -136,8 +141,8 @@
 -  <a href="http://www.mkyong.com/spring/spring-auto-scanning-components/">Spring Auto Scanning Components</a>
 -  <a href="http://www.seostella.com/ru/article/2012/02/12/ispolzovanie-annotacii-autowired-v-spring-3.html">Использование аннотации @Autowired</a>
 -  Дополнительное:
-   -  <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html">Introduction to the Spring IoC container
-       and beans</a>
+   -  <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html">Introduction to the Spring IoC container and beans</a>
+   - [Подготовка к Spring Professional Certification. Контейнер, IoC, бины](https://habr.com/ru/post/470305/)
    -  <a href="http://it.vaclav.kiev.ua/2010/12/25/spring-framework-for-begginers-part-7/">Constructor против Setter Injection </a>
    -  <a href="https://spring.io/guides">Getting Started</a>
    -  <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/">Spring Framework Reference Documentation</a>
@@ -218,7 +223,7 @@
 - 1: **В реализации `InMemoryUserRepository`**
   - 1.1: `getByEmail` попробуйте сделать через `stream`
   - 1.2: `delete` попробуйте сделать за одно обращение к map (без `containsKey`)
-  - 1.3: при запросе списка юзеров предусмотрите случай одинаковых `User.name` (порядок должен быть зафиксированным).
+  - 1.3: при запросе списка юзеров предусмотрите случай одинаковых `User.name` (порядок должен быть зафиксированным). Поле `User.email`у нас уникально - в базе будет ограничение.
 - 2: **В реализации `InMemoryMealRepository`**
   - 2.1: В `Meal`, которая приходит из браузера в контроллер, нет никакой информации о пользователе (еда приходит в контроллер **БЕЗ `user/userId`, она может быть только от авторизированного пользователя**). По id еды и авторизованному пользователю нужно проверить ее принадлежность (его это еда или чужая)
   **Проверьте сценарий: авторизованный пользователь пробует изменить чужую еду (id еды ему не принадлежит).**

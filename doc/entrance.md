@@ -79,7 +79,7 @@ Java Enterprise Online Project
 
 #### ВНИМАНИЕ: варианты Optional делайте в `UserMealsUtil` в одной ветке в разных методах. Проще делать, проще проверять
 
-#### Optional (Java 8 Stream API)
+### Optional (Java 8 Stream API)
 ```
 Сделать реализацию через Java 8 Stream API.
 ```
@@ -99,10 +99,11 @@ Java Enterprise Online Project
    - [Сергей Куксенко — Stream API, часть 1](https://www.youtube.com/watch?v=O8oN4KSZEXE)
    - [Сергей Куксенко — Stream API, часть 2](https://www.youtube.com/watch?v=i0Jr2l3jrDA)
 
-#### Optional 2 (+5 бонусов)
+### Optional 2 (+5 бонусов)
 ```
-Сделать реализацию со сложностью O(N):
-- циклом за 1 проход по List<UserMeal>. Обратите внимание на п.13 замечаний
+Сделать реализацию со сложностью O(N) (обратите внимание на п.13 замечаний):
+- циклом за 1 проход по List<UserMeal>
+  - без создания копий списка (в том числе модифицированных) и без дополнительных проходов по частям списка
 - через Stream API за 1 проход по исходному списку Stream<UserMeal> meals
   - возможно дополнительные проходы по частям списка
   - нельзя использовать внешние коллекции, не являющиеся частью коллектора или результатами работы stream
@@ -174,6 +175,7 @@ Java Enterprise Online Project
 
 #### Сервлеты
 -  <a href="https://devcolibri.com/как-создать-servlet-полное-руководство/">Как создать Servlet? Полное руководство.</a>
+-  [Сервлеты](https://metanit.com/java/javaee/4.1.php)
 
 #### JDBC, SQL
 - <a href="https://habrahabr.ru/post/123636/">Основы SQL на примере задачи</a>
